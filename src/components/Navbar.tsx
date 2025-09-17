@@ -3,14 +3,20 @@
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { CodeIcon } from "lucide-react";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import DasboardBtn from "./DasboardBtn";
 import { Button } from "./ui/button";
 
 function Navbar() {
   return (
     <nav className="border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-8">
         <div className="flex h-16 items-center justify-between">
           {/* LEFT SIDE - LOGO */}
           <Link
@@ -25,8 +31,6 @@ function Navbar() {
 
           {/* RIGHT SIDE - ACTIONS */}
           <div className="flex items-center space-x-4">
-            <ModeToggle />
-            
             <SignedOut>
               <div className="flex items-center space-x-2">
                 <SignInButton mode="modal">
@@ -35,15 +39,14 @@ function Navbar() {
                   </Button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <Button size="sm">
-                    Sign Up
-                  </Button>
+                  <Button size="sm">Sign Up</Button>
                 </SignUpButton>
               </div>
             </SignedOut>
-            
+
             <SignedIn>
               <DasboardBtn />
+              <ModeToggle />
               <UserButton />
             </SignedIn>
           </div>
