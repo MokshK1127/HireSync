@@ -1,6 +1,12 @@
 import { QuickActionType } from "@/constants";
 import { Card } from "./ui/card";
 
+// some weird tw bug
+// from-orange-500/10 via-orange-500/5 to-transparent
+// from-blue-500/10 via-blue-500/5 to-transparent
+// from-purple-500/10 via-purple-500/5 to-transparent
+// from-primary/10 via-primary/5 to-transparent
+
 function ActionCard({
   action,
   onClick,
