@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader } from "./ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import useMeetingActions from "@/hooks/useMeetingActions";
 
 interface MeetingModalProps {
   isOpen: boolean;
@@ -18,11 +19,18 @@ function MeetingModal({
   isJoinMeeting,
 }: MeetingModalProps) {
   const [meetingUrl, setMeetingUrl] = useState("");
-
-  const createMeeting = async () => {};
-  const joinMeeting = async () => {};
-
-  const handleStart = () => {};
+  const { createInstantMeeting, joinMeeting } = useMeetingActions();
+  const handleStart = () => {
+    if (isJoinMeeting) {
+      // if it's a full URL extract meeting ID
+      const meetingId = meetingUrl.split("/").pop();
+      if (meetingId) joinMeeting(meetingId);
+    } else {
+      createInstantMeeting();
+    }
+    setMeetingUrl("");
+    onClose();
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
