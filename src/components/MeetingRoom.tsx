@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "./ui/button";
+import EndCallButton from "./EndCallButton";
 
 function MeetingRoom() {
   const router = useRouter();
@@ -90,7 +91,7 @@ function MeetingRoom() {
                   >
                     <UsersIcon className="size-4" />
                   </Button>
-                  <button>end call</button>
+                  <EndCallButton />
                 </div>
               </div>
             </div>
