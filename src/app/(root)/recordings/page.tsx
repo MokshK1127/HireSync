@@ -1,5 +1,6 @@
 "use client";
 
+import RecordingCard from "@/components/RecordingCard";
 import LoaderUI from "@/components/ui/LoaderUI";
 import useGetCalls from "@/hooks/useGetCalls";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
@@ -43,10 +44,9 @@ function RecordingPage() {
       <ScrollArea className="h-[calc(100vh-12rem)] mt-3">
         {recordings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-6">
-            {recordings.map(
-              (r) => "RECORDINGS"
-              // <RecordingCard key={r.end_time} recording={r} />
-            )}
+            {recordings.map((r) => (
+              <RecordingCard key={r.end_time} recording={r} />
+            ))}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-[400px] gap-4">
