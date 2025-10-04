@@ -19,25 +19,19 @@ export const getMyInterviews = query({
 
     const interviews = await ctx.db
       .query("interviews")
-      .withIndex("by_candidate_id", (q) =>
-        q.eq("candidateId", identity.subject)
-      )
+      .withIndex("by_candidate_id", (q) => q.eq("candidateId", identity.subject))
       .collect();
 
-    return interviews;
+    return interviews!;
   },
 });
 
 export const getInterviewByStreamCallId = query({
-  args: {
-    streamCallId: v.string(),
-  },
+  args: { streamCallId: v.string() },
   handler: async (ctx, args) => {
     return await ctx.db
       .query("interviews")
-      .withIndex("by_stream_call_id", (q) =>
-        q.eq("streamCallId", args.streamCallId)
-      )
+      .withIndex("by_stream_call_id", (q) => q.eq("streamCallId", args.streamCallId))
       .first();
   },
 });
@@ -50,13 +44,15 @@ export const createInterview = mutation({
     status: v.string(),
     streamCallId: v.string(),
     candidateId: v.string(),
-    interviewerId: v.array(v.string()),
+    interviewerIds: v.array(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthorized");
 
-    return await ctx.db.insert("interviews", { ...args });
+    return await ctx.db.insert("interviews", {
+      ...args,
+    });
   },
 });
 

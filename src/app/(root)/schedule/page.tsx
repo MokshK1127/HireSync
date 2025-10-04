@@ -2,7 +2,7 @@
 
 import LoaderUI from "@/components/ui/LoaderUI";
 import { useUserRole } from "@/hooks/useUserRole";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import InterviewScheduleUI from "./InterviewScheduleUI";
 
 function SchedulePage() {
