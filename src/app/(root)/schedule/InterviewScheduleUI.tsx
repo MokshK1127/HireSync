@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 import {
   Dialog,
   DialogHeader,
-  DialogContent,
   DialogTitle,
   DialogTrigger,
+  DialogContent,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ import UserInfo from "@/components/UserInfo";
 import { Loader2Icon, XIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { TIME_SLOTS } from "@/constants";
+import MeetingCard from "@/components/MeetingCard";
 
 function InterviewScheduleUI() {
   const client = useStreamVideoClient();
@@ -50,13 +51,13 @@ function InterviewScheduleUI() {
 
   const scheduleMeeting = async () => {
     if (!client || !user) return;
-
     if (!formData.candidateId || formData.interviewerIds.length === 0) {
       toast.error("Please select both candidate and at least one interviewer");
       return;
     }
 
     setIsCreating(true);
+
     try {
       const { title, description, date, time, candidateId, interviewerIds } =
         formData;
@@ -89,8 +90,17 @@ function InterviewScheduleUI() {
 
       setOpen(false);
       toast.success("Meeting scheduled successfully!");
+
+      setFormData({
+        title: "",
+        description: "",
+        date: new Date(),
+        time: "09:00",
+        candidateId: "",
+        interviewerIds: user?.id ? [user.id] : [],
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Failed to schedule meeting. Please try again.");
     } finally {
       setIsCreating(false);
@@ -134,9 +144,10 @@ function InterviewScheduleUI() {
         </div>
 
         {/* DIALOG */}
+
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="lg"> Schedule Interview</Button>
+            <Button size="lg">Schedule Interview</Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-[500px] h-[calc(100vh-200px)] overflow-auto">
@@ -155,6 +166,7 @@ function InterviewScheduleUI() {
                   }
                 />
               </div>
+
               {/* INTERVIEW DESC */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Description</label>
@@ -167,6 +179,7 @@ function InterviewScheduleUI() {
                   rows={3}
                 />
               </div>
+
               {/* CANDIDATE */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Candidate</label>
@@ -191,6 +204,7 @@ function InterviewScheduleUI() {
                   </SelectContent>
                 </Select>
               </div>
+
               {/* INTERVIEWERS */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Interviewers</label>
@@ -268,6 +282,8 @@ function InterviewScheduleUI() {
                   </Select>
                 </div>
               </div>
+
+              {/* ACTION BUTTONS */}
               <div className="flex justify-end gap-3 pt-4">
                 <Button variant="outline" onClick={() => setOpen(false)}>
                   Cancel
@@ -287,8 +303,26 @@ function InterviewScheduleUI() {
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* LOADING STATE & MEETING CARDS */}
+      {!interviews ? (
+        <div className="flex justify-center py-12">
+          <Loader2Icon className="size-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : interviews.length > 0 ? (
+        <div className="spacey-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {interviews.map((interview) => (
+              <MeetingCard key={interview._id} interview={interview} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-12 text-muted-foreground">
+          No interviews scheduled
+        </div>
+      )}
     </div>
   );
 }
-
 export default InterviewScheduleUI;
