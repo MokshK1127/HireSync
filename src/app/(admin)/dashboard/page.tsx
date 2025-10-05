@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import LoaderUI from "@/components/ui/LoaderUI";
+import CommentDialog from "@/components/CommentDialog";
 
 type Interview = Doc<"interviews">;
 
@@ -142,7 +143,7 @@ function DashboardPage() {
                                 </Button>
                               </div>
                             )}
-                            {/* <CommentDialog interviewId={interview._id} /> */}
+                            <CommentDialog interviewId={interview._id} />
                           </CardFooter>
                         </Card>
                       );
