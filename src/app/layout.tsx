@@ -48,9 +48,7 @@ export default function RootLayout({
               </div>
             </SignedIn>
 
-            <SignedOut>
-              <RedirectToSignIn />
-            </SignedOut>
+            <SignedOut>{children}</SignedOut>
           </ThemeProvider>
           <Toaster />
         </body>
